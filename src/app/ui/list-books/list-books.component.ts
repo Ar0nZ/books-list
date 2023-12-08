@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NgForOf, AsyncPipe, DatePipe } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books.service';
@@ -6,6 +6,7 @@ import { BooksService } from '../../services/books.service';
 @Component({
   selector: 'app-list-books',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgForOf, AsyncPipe, DatePipe],
   templateUrl: './list-books.component.html',
   styleUrl: './list-books.component.scss',
