@@ -1,1 +1,21 @@
-<p>list-books works!</p>
+<h2>Lista Książek</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Tytuł</th>
+      <th>Autor</th>
+      <th>Data Wydania</th>
+      <th>Akcje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let book of books; let i = index">
+      <td>{{ book.title }}</td>
+      <td>{{ book.author }}</td>
+      <td>{{ book.releaseDate | date : "yyyy-MM-dd" }}</td>
+      <td>
+        <button>Usuń</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
