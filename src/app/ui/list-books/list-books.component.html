@@ -9,12 +9,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let book of books; let i = index">
+    <tr *ngFor="let book of books$ | async; let i = index">
       <td>{{ book.title }}</td>
       <td>{{ book.author }}</td>
       <td>{{ book.releaseDate | date : "yyyy-MM-dd" }}</td>
       <td>
-        <button>Usuń</button>
+        <button (click)="removeBook(i)">Usuń</button>
       </td>
     </tr>
   </tbody>

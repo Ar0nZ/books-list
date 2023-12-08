@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book.model';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BooksService {
-  private books: Book[] = [
+  private _books = new BehaviorSubject<Book[]>([
     {
       title: 'Wiedźmin',
       author: 'Andrzej Sapkowski',
@@ -26,9 +27,21 @@ export class BooksService {
       author: 'George Orwell',
       releaseDate: '1949-01-01T00:00:00Z',
     },
-  ];
+  ]);
 
-  getBooks(): Book[] {
-    return this.books;
+  getBooks(): Observable<Book[]> {
+    return this._books.asObservable();
+  }
+
+  addBook(book: Book): void {
+    const currentBooks = this._books.getValue();
+    currentBooks.push(book);
+    this._books.next(currentBooks);
+  }
+
+  removeBook(index: number): void {
+    const currentBooks = this._books.getValue();
+    currentBooks.splice(index, 1);
+    this._books.next(currentBooks);
   }
 }

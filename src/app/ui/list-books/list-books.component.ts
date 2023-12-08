@@ -2,6 +2,7 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NgForOf, AsyncPipe, DatePipe } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list-books',
@@ -12,7 +13,11 @@ import { BooksService } from '../../services/books.service';
   styleUrl: './list-books.component.scss',
 })
 export class ListBooksComponent {
-  private bookService = inject(BooksService);
+  private bookService: BooksService = inject(BooksService);
 
-  books: Book[] = this.bookService.getBooks();
+  books$: Observable<Book[]> = this.bookService.getBooks();
+
+  removeBook(index: number): void {
+    this.bookService.removeBook(index);
+  }
 }
