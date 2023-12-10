@@ -18,11 +18,13 @@
   </mat-form-field>
 
   <button
-    mat-raised-button
+    mat-fab
+    extended
     color="primary"
     type="submit"
     [disabled]="bookForm.invalid"
   >
-    Dodaj Książkę
+    <mat-icon>add</mat-icon>
+    Dodaj
   </button>
 </form>

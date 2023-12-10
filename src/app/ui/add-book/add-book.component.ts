@@ -3,6 +3,7 @@ import { BooksService } from '../../services/books.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatNativeDateModule,
   MAT_DATE_FORMATS,
@@ -50,6 +51,7 @@ export const MY_FORMATS = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatIconModule,
   ],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.scss',
@@ -68,7 +70,7 @@ export class AddBookComponent {
     if (this.bookForm.valid) {
       this.bookForm.value.releaseDate._d.setUTCHours(0, 0, 0, 0);
       const formattedBook = {
-        ...this.bookForm.value._d,
+        ...this.bookForm.value,
         releaseDate:
           this.bookForm.value.releaseDate.toISOString().split('.')[0] + 'Z',
       };
