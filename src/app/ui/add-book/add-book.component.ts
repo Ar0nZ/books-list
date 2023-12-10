@@ -1,6 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { BooksService } from '../../services/books.service';
-import { Book } from '../../models/book.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+// import { Book } from '../../models/book.model';
 import {
   FormBuilder,
   FormGroup,
@@ -12,7 +17,15 @@ import {
   selector: 'app-add-book',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  providers: [],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule,
+  ],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.scss',
 })
@@ -23,10 +36,7 @@ export class AddBookComponent {
   bookForm: FormGroup = this.formBuilder.group({
     title: ['', Validators.required],
     author: ['', Validators.required],
-    releaseDate: [
-      '',
-      [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/)],
-    ],
+    releaseDate: ['', Validators.required],
   });
 
   formSubmit(): void {

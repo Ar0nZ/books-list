@@ -1,15 +1,28 @@
 <form [formGroup]="bookForm" (ngSubmit)="formSubmit()">
-  <div>
-    <label>Tytuł:</label>
-    <input formControlName="title" />
-  </div>
-  <div>
-    <label>Autor:</label>
-    <input formControlName="author" />
-  </div>
-  <div>
-    <label>Data Wydania:</label>
-    <input formControlName="releaseDate" />
-  </div>
-  <button type="submit" [disabled]="bookForm.invalid">Dodaj Książkę</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Tytuł:</mat-label>
+    <input matInput formControlName="title" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Autor:</mat-label>
+    <input matInput formControlName="author" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Data Wydania:</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="releaseDate" />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="bookForm.invalid"
+  >
+    Dodaj Książkę
+  </button>
 </form>
