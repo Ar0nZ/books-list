@@ -1,11 +1,15 @@
-<button
-  (click)="addBook(
-        {
-      title: 'Test',
-      author: 'Tester',
-      releaseDate: '1997-01-01T00:00:00Z',
-    
-})"
->
-  addBook(test)
-</button>
+<form [formGroup]="bookForm" (ngSubmit)="formSubmit()">
+  <div>
+    <label>Tytuł:</label>
+    <input formControlName="title" />
+  </div>
+  <div>
+    <label>Autor:</label>
+    <input formControlName="author" />
+  </div>
+  <div>
+    <label>Data Wydania:</label>
+    <input formControlName="releaseDate" />
+  </div>
+  <button type="submit" [disabled]="bookForm.invalid">Dodaj Książkę</button>
+</form>
