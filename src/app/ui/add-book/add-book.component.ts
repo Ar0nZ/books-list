@@ -3,8 +3,14 @@ import { BooksService } from '../../services/books.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MatNativeDateModule,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  DateAdapter,
+} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 // import { Book } from '../../models/book.model';
 import {
   FormBuilder,
@@ -13,11 +19,30 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @Component({
   selector: 'app-add-book',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -41,9 +66,11 @@ export class AddBookComponent {
 
   formSubmit(): void {
     if (this.bookForm.valid) {
+      this.bookForm.value.releaseDate._d.setUTCHours(0, 0, 0, 0);
       const formattedBook = {
-        ...this.bookForm.value,
-        releaseDate: this.bookForm.value.releaseDate.toISOString(),
+        ...this.bookForm.value._d,
+        releaseDate:
+          this.bookForm.value.releaseDate.toISOString().split('.')[0] + 'Z',
       };
       this.bookService.addBook(formattedBook);
     }
