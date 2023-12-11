@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   MatNativeDateModule,
   MAT_DATE_FORMATS,
@@ -52,6 +53,8 @@ export const MY_FORMATS = {
     MatNativeDateModule,
     MatButtonModule,
     MatIconModule,
+    RouterLink,
+    RouterOutlet,
   ],
   templateUrl: './add-book.component.html',
   styleUrl: './add-book.component.scss',
@@ -59,6 +62,7 @@ export const MY_FORMATS = {
 export class AddBookComponent {
   private bookService: BooksService = inject(BooksService);
   private formBuilder = inject(FormBuilder);
+  private router = inject(Router);
 
   bookForm: FormGroup = this.formBuilder.group({
     title: ['', Validators.required],
@@ -75,6 +79,7 @@ export class AddBookComponent {
           this.bookForm.value.releaseDate.toISOString().split('.')[0] + 'Z',
       };
       this.bookService.addBook(formattedBook);
+      this.router.navigate(['/books']);
     }
   }
 }
