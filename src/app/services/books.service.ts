@@ -27,6 +27,31 @@ export class BooksService {
       author: 'George Orwell',
       releaseDate: '1949-01-01T00:00:00Z',
     },
+    {
+      title: 'Lorem ipsum111',
+      author: 'Testowy',
+      releaseDate: '2023-12-02T00:00:00Z',
+    },
+    {
+      title: 'Lorem ipsum222',
+      author: 'Testowy',
+      releaseDate: '2023-12-02T00:00:00Z',
+    },
+    {
+      title: 'Lorem ipsum333',
+      author: 'Testowy',
+      releaseDate: '2023-12-02T00:00:00Z',
+    },
+    {
+      title: 'Lorem ipsum444',
+      author: 'Testowy',
+      releaseDate: '2023-12-02T00:00:00Z',
+    },
+    {
+      title: 'Lorem ipsum555',
+      author: 'Testowy',
+      releaseDate: '2023-12-02T00:00:00Z',
+    },
   ]);
 
   getBooks(): Observable<Book[]> {

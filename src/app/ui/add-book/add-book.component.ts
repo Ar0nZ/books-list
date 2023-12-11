@@ -20,6 +20,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import 'moment/locale/pl';
 
 export const MY_FORMATS = {
   parse: {
@@ -44,6 +45,7 @@ export const MY_FORMATS = {
       deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
   ],
   imports: [
     ReactiveFormsModule,

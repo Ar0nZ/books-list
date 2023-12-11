@@ -12,15 +12,43 @@ import { map } from 'rxjs/operators';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  MatPaginatorIntl,
+} from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+
+const PLRangeLabel = (page: number, pageSize: number, length: number) => {
+  if (length == 0 || pageSize == 0) {
+    return `0 de ${length}`;
+  }
+  length = Math.max(length, 0);
+  const startIndex = page * pageSize;
+  const endIndex =
+    startIndex < length
+      ? Math.min(startIndex + pageSize, length)
+      : startIndex + pageSize;
+  return `${startIndex + 1} - ${endIndex} z ${length}`;
+};
+export function getPLPaginatorIntl() {
+  const paginatorIntl = new MatPaginatorIntl();
+  paginatorIntl.itemsPerPageLabel = 'Książek na stronę:';
+  paginatorIntl.firstPageLabel = 'Pierwsza strona';
+  paginatorIntl.previousPageLabel = 'Poprzednia strona';
+  paginatorIntl.nextPageLabel = 'Kolejna strona';
+  paginatorIntl.lastPageLabel = 'Ostatnia strona';
+  paginatorIntl.getRangeLabel = PLRangeLabel;
+  return paginatorIntl;
+}
 
 @Component({
   selector: 'app-list-books',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: MatPaginatorIntl, useValue: getPLPaginatorIntl() }],
   imports: [
     NgForOf,
     AsyncPipe,
