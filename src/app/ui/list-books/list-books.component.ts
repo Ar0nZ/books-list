@@ -58,7 +58,6 @@ export class ListBooksComponent implements AfterViewInit, OnInit, OnDestroy {
       .getBooks()
       .pipe(takeUntil(this._subscribtion$))
       .subscribe((books: Book[]) => {
-        this.dataSource.data = books;
         this.dataSource.data = books.map((book, index) => ({
           ...book,
           id: index,
