@@ -4,8 +4,10 @@
   </a>
   <h1>Lista książek</h1>
   <span class="nav__spacer"></span>
+  @if(router.url !== '/add-book') {
   <a mat-fab extended color="primary" routerLink="/add-book">
     <mat-icon>add</mat-icon>
     Dodaj nową
   </a>
+  }
 </mat-toolbar>
