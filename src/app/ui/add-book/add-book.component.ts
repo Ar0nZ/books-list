@@ -13,7 +13,6 @@ import {
 } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-// import { Book } from '../../models/book.model';
 import {
   FormBuilder,
   FormGroup,
@@ -62,11 +61,11 @@ export const MY_FORMATS = {
   styleUrl: './add-book.component.scss',
 })
 export class AddBookComponent {
-  private bookService: BooksService = inject(BooksService);
-  private formBuilder = inject(FormBuilder);
-  private router = inject(Router);
+  private _bookService: BooksService = inject(BooksService);
+  private _formBuilder = inject(FormBuilder);
+  private _router = inject(Router);
 
-  bookForm: FormGroup = this.formBuilder.group({
+  bookForm: FormGroup = this._formBuilder.group({
     title: ['', Validators.required],
     author: ['', Validators.required],
     releaseDate: ['', Validators.required],
@@ -80,9 +79,9 @@ export class AddBookComponent {
         releaseDate:
           this.bookForm.value.releaseDate.toISOString().split('.')[0] + 'Z',
       };
-      this.bookService.addBook(formattedBook);
-      this.bookService.openSnackBar('Dodano książkę');
-      this.router.navigate(['/books']);
+      this._bookService.addBook(formattedBook);
+      this._bookService.openSnackBar('Dodano książkę');
+      this._router.navigate(['/books']);
     }
   }
 }

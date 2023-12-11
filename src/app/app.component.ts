@@ -19,6 +19,4 @@ import { NavComponent } from './ui/nav/nav.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'books-app';
-}
+export class AppComponent {}

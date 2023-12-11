@@ -21,29 +21,7 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-
-const PLRangeLabel = (page: number, pageSize: number, length: number) => {
-  if (length == 0 || pageSize == 0) {
-    return `0 z ${length}`;
-  }
-  length = Math.max(length, 0);
-  const startIndex = page * pageSize;
-  const endIndex =
-    startIndex < length
-      ? Math.min(startIndex + pageSize, length)
-      : startIndex + pageSize;
-  return `${startIndex + 1} - ${endIndex} z ${length}`;
-};
-export function getPLPaginatorIntl() {
-  const paginatorIntl = new MatPaginatorIntl();
-  paginatorIntl.itemsPerPageLabel = 'Książek na stronę:';
-  paginatorIntl.firstPageLabel = 'Pierwsza strona';
-  paginatorIntl.previousPageLabel = 'Poprzednia strona';
-  paginatorIntl.nextPageLabel = 'Kolejna strona';
-  paginatorIntl.lastPageLabel = 'Ostatnia strona';
-  paginatorIntl.getRangeLabel = PLRangeLabel;
-  return paginatorIntl;
-}
+import { getPLPaginatorIntl } from './paginator-translate';
 
 @Component({
   selector: 'app-list-books',
@@ -68,19 +46,18 @@ export function getPLPaginatorIntl() {
 export class ListBooksComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  private bookService: BooksService = inject(BooksService);
+  private _bookService: BooksService = inject(BooksService);
 
   dataSource: MatTableDataSource<Book> = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'releaseDate', 'actions'];
+
   ngOnInit(): void {
-    this.bookService.getBooks().subscribe((books) => {
+    this._bookService.getBooks().subscribe((books) => {
       this.dataSource.data = books;
       this.dataSource.data = books.map((book, index) => ({
         ...book,
         id: index,
       }));
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     });
   }
 
@@ -90,8 +67,8 @@ export class ListBooksComponent implements AfterViewInit, OnInit {
   }
 
   removeBook(index: number): void {
-    this.bookService.removeBook(index);
-    this.bookService.openSnackBar('Usunięto książkę!');
+    this._bookService.removeBook(index);
+    this._bookService.openSnackBar('Usunięto książkę!');
   }
 
   applyFilter(event: Event): void {

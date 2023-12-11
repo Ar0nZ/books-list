@@ -8,7 +8,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BooksService {
   private _snackBar = inject(MatSnackBar);
-
   private _books = new BehaviorSubject<Book[]>([
     {
       title: 'Wiedźmin',
