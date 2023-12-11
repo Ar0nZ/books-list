@@ -12,5 +12,9 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './nav.component.scss',
 })
 export class NavComponent {
-  public router: Router = inject(Router);
+  private router: Router = inject(Router);
+
+  checkIsRoute(routeUrl: string): boolean {
+    return routeUrl === this.router.url ? true : false;
+  }
 }
