@@ -3,12 +3,13 @@ import {
   inject,
   ChangeDetectionStrategy,
   ViewChild,
+  OnInit,
+  AfterViewInit,
 } from '@angular/core';
 import { NgForOf, AsyncPipe, DatePipe } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -64,37 +65,13 @@ export function getPLPaginatorIntl() {
   templateUrl: './list-books.component.html',
   styleUrl: './list-books.component.scss',
 })
-export class ListBooksComponent {
-  private bookService: BooksService = inject(BooksService);
-
-  dataSource = new MatTableDataSource<Book>();
-
-  //books$: Observable<Book[]> = this.bookService.getBooks();
-  /* books$: any = this.bookService.getBooks().subscribe((books) => {
-    this.dataSource.data = books;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }); */
-
+export class ListBooksComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  private bookService: BooksService = inject(BooksService);
 
+  dataSource: MatTableDataSource<Book> = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'releaseDate', 'actions'];
-
-  /* 
- private dataSource = new MatTableDataSource<Book>();
-
-thingsAsMatTableDataSource$: Observable<MatTableDataSource<Book>> =
-    this.bookService.getBooks().pipe(
-      map((things) => {
-        const dataSource = this.dataSource;
-        dataSource.data = things;
-        return dataSource;
-      })
-    );
-
-    */
-
   ngOnInit(): void {
     this.bookService.getBooks().subscribe((books) => {
       this.dataSource.data = books;
@@ -107,7 +84,7 @@ thingsAsMatTableDataSource$: Observable<MatTableDataSource<Book>> =
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -117,10 +94,9 @@ thingsAsMatTableDataSource$: Observable<MatTableDataSource<Book>> =
     this.bookService.openSnackBar('Usunięto książkę!');
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }

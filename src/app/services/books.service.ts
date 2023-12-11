@@ -73,7 +73,7 @@ export class BooksService {
     this._books.next(currentBooks);
   }
 
-  openSnackBar(message: string) {
+  openSnackBar(message: string): void {
     this._snackBar.open(message, undefined, {
       horizontalPosition: 'end',
       verticalPosition: 'bottom',
