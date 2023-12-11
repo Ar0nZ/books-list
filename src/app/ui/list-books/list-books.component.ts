@@ -5,6 +5,7 @@ import {
   ViewChild,
   OnInit,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { NgForOf, AsyncPipe, DatePipe } from '@angular/common';
 import { Book } from '../../models/book.model';
@@ -22,6 +23,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { getPLPaginatorIntl } from './paginator-translate';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-books',
@@ -43,27 +46,36 @@ import { getPLPaginatorIntl } from './paginator-translate';
   templateUrl: './list-books.component.html',
   styleUrl: './list-books.component.scss',
 })
-export class ListBooksComponent implements AfterViewInit, OnInit {
+export class ListBooksComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   private _bookService: BooksService = inject(BooksService);
+  private _subscribtion$: Subject<void> = new Subject<void>();
 
   dataSource: MatTableDataSource<Book> = new MatTableDataSource<Book>();
   displayedColumns: string[] = ['title', 'author', 'releaseDate', 'actions'];
 
   ngOnInit(): void {
-    this._bookService.getBooks().subscribe((books) => {
-      this.dataSource.data = books;
-      this.dataSource.data = books.map((book, index) => ({
-        ...book,
-        id: index,
-      }));
-    });
+    this._bookService
+      .getBooks()
+      .pipe(takeUntil(this._subscribtion$))
+      .subscribe((books) => {
+        this.dataSource.data = books;
+        this.dataSource.data = books.map((book, index) => ({
+          ...book,
+          id: index,
+        }));
+      });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy() {
+    this._subscribtion$.next();
+    this._subscribtion$.complete();
   }
 
   removeBook(index: number): void {
