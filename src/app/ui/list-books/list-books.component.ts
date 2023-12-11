@@ -7,7 +7,7 @@ import {
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
-import { NgForOf, AsyncPipe, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Book } from '../../models/book.model';
 import { BooksService } from '../../services/books.service';
 
@@ -32,8 +32,6 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: MatPaginatorIntl, useValue: getPLPaginatorIntl() }],
   imports: [
-    NgForOf,
-    AsyncPipe,
     DatePipe,
     MatTableModule,
     MatButtonModule,
@@ -59,7 +57,7 @@ export class ListBooksComponent implements AfterViewInit, OnInit, OnDestroy {
     this._bookService
       .getBooks()
       .pipe(takeUntil(this._subscribtion$))
-      .subscribe((books) => {
+      .subscribe((books: Book[]) => {
         this.dataSource.data = books;
         this.dataSource.data = books.map((book, index) => ({
           ...book,
