@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Book } from '../models/book.model';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BooksService {
+  private _snackBar = inject(MatSnackBar);
+
   private _books = new BehaviorSubject<Book[]>([
     {
       title: 'Wiedźmin',
@@ -68,5 +71,13 @@ export class BooksService {
     const currentBooks = this._books.getValue();
     currentBooks.splice(index, 1);
     this._books.next(currentBooks);
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, undefined, {
+      horizontalPosition: 'end',
+      verticalPosition: 'bottom',
+      duration: 1600,
+    });
   }
 }

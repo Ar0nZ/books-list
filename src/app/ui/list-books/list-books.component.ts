@@ -110,6 +110,7 @@ thingsAsMatTableDataSource$: Observable<MatTableDataSource<Book>> =
 
   removeBook(index: number): void {
     this.bookService.removeBook(index);
+    this.bookService.openSnackBar('Usunięto książkę!');
   }
 
   applyFilter(event: Event) {

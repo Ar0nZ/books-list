@@ -81,6 +81,7 @@ export class AddBookComponent {
           this.bookForm.value.releaseDate.toISOString().split('.')[0] + 'Z',
       };
       this.bookService.addBook(formattedBook);
+      this.bookService.openSnackBar('Dodano książkę');
       this.router.navigate(['/books']);
     }
   }
