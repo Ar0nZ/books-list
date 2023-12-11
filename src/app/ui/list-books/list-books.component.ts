@@ -98,6 +98,10 @@ thingsAsMatTableDataSource$: Observable<MatTableDataSource<Book>> =
   ngOnInit(): void {
     this.bookService.getBooks().subscribe((books) => {
       this.dataSource.data = books;
+      this.dataSource.data = books.map((book, index) => ({
+        ...book,
+        id: index,
+      }));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
