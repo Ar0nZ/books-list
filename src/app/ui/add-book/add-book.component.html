@@ -1,18 +1,18 @@
 <form [formGroup]="bookForm" (ngSubmit)="formSubmit()">
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Tytuł:</mat-label>
     <input matInput formControlName="title" />
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Autor:</mat-label>
     <input matInput formControlName="author" />
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field>
     <mat-label>Data Wydania:</mat-label>
     <input matInput [matDatepicker]="picker" formControlName="releaseDate" />
-    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-hint>RRRR-MM-DD (np. 1995.02.20)</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -23,6 +23,7 @@
     color="primary"
     type="submit"
     [disabled]="bookForm.invalid"
+    class="submit"
   >
     <mat-icon>add</mat-icon>
     Dodaj

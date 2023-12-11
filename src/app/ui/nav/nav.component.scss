@@ -1,5 +1,9 @@
 .nav {
-  margin: 2rem 0 0.6rem 0;
+  margin: 0 0 2rem 0;
+  &__container {
+    max-width: 940px;
+    margin: 0 auto;
+  }
   &__spacer {
     flex: 1 1 auto;
   }

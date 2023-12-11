@@ -1,8 +1,8 @@
 <mat-toolbar class="mat-elevation-z1 nav">
-  <a mat-icon-button aria-label="Lista książek" routerLink="/">
+  <a mat-button routerLink="/">
     <mat-icon>library_books</mat-icon>
+    <h1>Lista książek</h1>
   </a>
-  <h1>Lista książek</h1>
   <span class="nav__spacer"></span>
   @if(!checkIsRoute('/add-book')) {
   <a mat-fab extended color="primary" routerLink="/add-book">
